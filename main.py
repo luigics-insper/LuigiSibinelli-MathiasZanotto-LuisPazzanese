@@ -50,9 +50,6 @@ class Ball: #bola
 
 
 
-
-
-
 def draw(win,platform,ball): #colorir
     win.fill('white')
     platform.draw(win)
@@ -82,14 +79,15 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
                 break
-
+            
             keys = pygame.key.get_pressed()
 
-            if keys[pygame.K_LEFT] and platform.x - platform.VEL >= 0:
-                platform.movement(-1)
-            if keys[pygame.K_RIGHT] and platform.x + platform.width + platform.VEL <= WIDTH:
-                platform.movement(1)
-        
+            
+        if keys[pygame.K_LEFT] and platform.x - platform.VEL >= 0:
+                    platform.movement(-1)
+        if keys[pygame.K_RIGHT] and platform.x + platform.width + platform.VEL <= WIDTH:
+                    platform.movement(1)
+            
         ball.movement()
         ball_colission(ball)
         draw(win, platform, ball)
@@ -100,3 +98,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
