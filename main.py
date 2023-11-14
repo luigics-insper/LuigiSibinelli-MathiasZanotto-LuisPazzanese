@@ -59,7 +59,7 @@ def draw(win,platform,ball): #colorir
     ball.draw(win)
     pygame.display.update()
 
-def ball_colission(ball):
+def ball_colission(ball): #por enquanto so tem as colisoes com paredes, falta com a plataforma
     if ball.x -ball_radius <= 0 or ball.x + ball_radius>= WIDTH:
         ball.set_velocity(ball.x_vel * -1,ball.y_vel)
     if ball.y + ball_radius>= HEIGHT or ball.y - ball_radius <= 0:
