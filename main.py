@@ -79,7 +79,7 @@ def platform_ball_collision(ball, platform): # colisao entre bola e plataforma
     x_vel = math.sin(ang_rad) * ball.VEL
     y_vel = math.cos(ang_rad) * ball.VEL * -1
 
-    ball.set_vel(x_vel, y_vel)
+    ball.set_velocity(x_vel, y_vel)
 
 
 
@@ -112,9 +112,6 @@ def main():
         ball_collision(ball)
         platform_ball_collision(ball,platform)
         draw(win, platform, ball)
-
-        if ball.colliderect(platform):
-             ball_y_direction *= 1
             
         
 
