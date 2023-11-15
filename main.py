@@ -1,4 +1,5 @@
 import pygame
+import math
 
 WIDTH , HEIGHT = 800 , 600
 win = pygame.display.set_mode((WIDTH,HEIGHT)) #window
@@ -56,12 +57,31 @@ def draw(win,platform,ball): #colorir
     ball.draw(win)
     pygame.display.update()
 
-def ball_colission(ball): #por enquanto so tem as colisoes com paredes, falta com a plataforma
+def ball_collision(ball): # colisoes com paredes
     if ball.x -ball_radius <= 0 or ball.x + ball_radius>= WIDTH:
         ball.set_velocity(ball.x_vel * -1,ball.y_vel)
     if ball.y + ball_radius>= HEIGHT or ball.y - ball_radius <= 0:
         ball.set_velocity(ball.x_vel, ball.y_vel * -1)
+
+def platform_ball_collision(ball, platform): # colisao entre bola e plataforma
+    if not (ball.x <= platform.x + platform.width and ball.x >= platform.x):
+        return
+    if not (ball.y + ball.radius >= platform.y):
+        return
     
+    platform_center = platform.x + platform.width/2
+    distance_to_center = ball.x - platform_center
+
+    percent_width = distance_to_center / platform.width
+    ang = percent_width * 90
+    ang_rad = math.radians(ang)
+
+    x_vel = math.sin(ang_rad) * ball.VEL
+    y_vel = math.cos(ang_rad) * ball.VEL * -1
+
+    ball.set_vel(x_vel, y_vel)
+
+
 
 def main():
     clock = pygame.time.Clock()
@@ -89,8 +109,13 @@ def main():
                     platform.movement(1)
             
         ball.movement()
-        ball_colission(ball)
+        ball_collision(ball)
+        platform_ball_collision(ball,platform)
         draw(win, platform, ball)
+
+        if ball.colliderect(platform):
+             ball_y_direction *= 1
+            
         
 
     pygame.quit()
