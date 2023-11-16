@@ -48,8 +48,28 @@ class Ball: #bola
     def draw(self,win): #desenha a bolinha
         pygame.draw.circle(win,self.color,(self.x,self.y),self.radius)
 
+class Tijolos():
+    def __init__(self, x, y, largura, altura, vida, cor):
+        self.x = x
+        self.y = y
+        self.largura = largura
+        self.altura = altura
+        self.vida = vida
+        self.cor = cor
 
+    def draw(self, win):
+        pygame.draw.rect(win, self.cor, (self.x, self.y, self.largura, self.altura))
 
+    def colisao(self, ball):
+        if not (ball.x <= self.x + self.width and ball.x >= self.x):
+            return False
+        if not (ball.y + ball.radius >= self.y):
+            return False
+        self.acerto()
+        return True
+    
+    def acerto(self, win):
+         self.vida -= 1
 
 def draw(win,platform,ball): #colorir
     win.fill('white')
@@ -81,7 +101,17 @@ def platform_ball_collision(ball, platform): # colisao entre bola e plataforma
 
     ball.set_velocity(x_vel, y_vel)
 
+def gerar_tijolos(linhas, colunas):
+    tijolos = []
 
+    altura_tijolo = 30
+    largura_tijolo = WIDTH // colunas - 2
+
+    for linha in range(linhas):
+        for coluna in range(colunas):
+            tijolos.append(Tijolos(largura_tijolo * coluna + 2, altura_tijolo * linha + 2, altura_tijolo))
+    
+    return tijolos
 
 def main():
     clock = pygame.time.Clock()
