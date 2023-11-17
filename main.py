@@ -1,6 +1,6 @@
 import pygame
 import math
-
+pygame.init()
 WIDTH , HEIGHT = 800 , 600
 win = pygame.display.set_mode((WIDTH,HEIGHT)) #window
 pygame.display.set_caption('Brick Breaker')
@@ -9,6 +9,7 @@ FPS = 60
 platform_width = 100
 platform_height = 15
 ball_radius = 10
+FONTE_VIDAS = pygame.font.SysFont("comicsans", 40)
 class Platform: #plataforma
     VEL = 5
 
@@ -79,13 +80,16 @@ class Tijolos():
     def interpolar(cor1, cor2, t):
         return tuple(int(a + (b - a) * t) for a, b in zip(cor1, cor2))
 
-def draw(win,platform,ball,tijolos): #colorir
+def draw(win,platform,ball,tijolos,vidas): #colorir
     win.fill('white')
     platform.draw(win)
     ball.draw(win)
 
     for tijolo in tijolos:
         tijolo.draw(win)
+
+    vidas_texto = FONTE_VIDAS.render(f"Vidas restantes: {vidas}", 1, "black")
+    win.blit(vidas_texto, (10, HEIGHT - vidas_texto.get_height() - 10))
 
     pygame.display.update()
 
@@ -133,6 +137,8 @@ def main():
     platform_y = HEIGHT - platform_height - 5
     platform = Platform(platform_x, platform_y,platform_width ,platform_height, 'black')
 
+    vidas = 3
+
     ball = Ball(WIDTH/2, platform_y - ball_radius, ball_radius,'black')
     tijolos = gerar_tijolos(3, 10)
 
@@ -162,7 +168,7 @@ def main():
             if tijolo.vida <= 0:
                 tijolos.remove(tijolo)
 
-        draw(win, platform, ball, tijolos)
+        draw(win, platform, ball, tijolos, vidas)
             
         
 
