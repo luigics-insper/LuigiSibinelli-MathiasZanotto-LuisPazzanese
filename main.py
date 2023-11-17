@@ -68,12 +68,12 @@ class Tijolos():
         if not (ball.y - ball.radius <= self.y + self.altura):
             return False
         self.acerto()
-        ball.set_vel(ball.x_vel, ball.y_vel * -1)
+        ball.set_velocity(ball.x_vel, ball.y_vel * -1)
         return True
     
     def acerto(self):
         self.vida -= 1
-        self.cor = self.interpolar(self.cores, self.vida/self.vida_maxima)
+        self.cor = self.interpolar(*self.cores, self.vida/self.vida_maxima)
     
     @staticmethod
     def interpolar(cor1, cor2, t):
