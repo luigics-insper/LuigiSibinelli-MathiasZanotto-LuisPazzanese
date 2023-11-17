@@ -92,7 +92,7 @@ def draw(win,platform,tijolos,vidas): #colorir
     for tijolo in tijolos:
         tijolo.draw(win)
 
-    vidas_texto = FONTE_VIDAS.render(f"Vidas restantes: {vidas}", 1, "black")
+    vidas_texto = FONTE_VIDAS.render(f"Vidas restantes: {vidas}", 1, "red")
     win.blit(vidas_texto, (10, HEIGHT - vidas_texto.get_height() - 10))
 
 
