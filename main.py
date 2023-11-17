@@ -1,4 +1,5 @@
 import pygame
+from background import Background
 import math
 pygame.init()
 WIDTH , HEIGHT = 800 , 600
@@ -10,6 +11,7 @@ platform_width = 100
 platform_height = 15
 ball_radius = 10
 FONTE_VIDAS = pygame.font.SysFont("arial", 25)
+
 class Platform: #plataforma
     VEL = 5
 
@@ -81,7 +83,7 @@ class Tijolos():
         return tuple(int(a + (b - a) * t) for a, b in zip(cor1, cor2))
 
 def draw(win,platform,ball,tijolos,vidas): #colorir
-    win.fill('white')
+
     platform.draw(win)
     ball.draw(win)
 
@@ -132,6 +134,9 @@ def gerar_tijolos(linhas, colunas):
 
 def main():
     clock = pygame.time.Clock()
+
+    background = Background()
+    imagem_bg = background.criar_bg()
 
     platform_x = WIDTH/2 - platform_width / 2
     platform_y = HEIGHT - platform_height - 5
@@ -185,11 +190,15 @@ def main():
             win.blit(texto_derrota, (WIDTH/2 - texto_derrota.get_width()/2, HEIGHT/2 - texto_derrota.get_height()/2))
             pygame.display.update()
             pygame.time.delay(5000)
-            
-        draw(win, platform, ball, tijolos, vidas)
-            
-        
 
+
+            
+        win.blit(imagem_bg, (0, 0))
+
+        draw(win, platform, ball, tijolos, vidas)
+        pygame.display.flip()
+
+        
     pygame.quit()
     quit()
 
