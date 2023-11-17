@@ -168,6 +168,14 @@ def main():
             if tijolo.vida <= 0:
                 tijolos.remove(tijolo)
 
+        #PERDER VIDAS
+        if ball.y + ball.radius >= HEIGHT:
+            vidas -= 1
+            ball.x = platform.x + platform_width/2 
+            ball.y = platform_y - ball_radius
+            ball.set_velocity(0, ball.VEL *- 1)
+
+
         draw(win, platform, ball, tijolos, vidas)
             
         
