@@ -49,32 +49,44 @@ class Ball: #bola
         pygame.draw.circle(win,self.color,(self.x,self.y),self.radius)
 
 class Tijolos():
-    def __init__(self, x, y, largura, altura, vida, cor):
+    def __init__(self, x, y, largura, altura, vida, cores):
         self.x = x
         self.y = y
         self.largura = largura
         self.altura = altura
         self.vida = vida
-        self.cor = cor
+        self.vida_maxima = vida
+        self.cores = cores
+        self.cor = cores[0]
 
     def draw(self, win):
         pygame.draw.rect(win, self.cor, (self.x, self.y, self.largura, self.altura))
 
     def colisao(self, ball):
-        if not (ball.x <= self.x + self.width and ball.x >= self.x):
+        if not (ball.x <= self.x + self.largura and ball.x >= self.x):
             return False
-        if not (ball.y + ball.radius >= self.y):
+        if not (ball.y - ball.radius <= self.y + self.altura):
             return False
         self.acerto()
+        ball.set_vel(ball.x_vel, ball.y_vel * -1)
         return True
     
-    def acerto(self, win):
-         self.vida -= 1
+    def acerto(self):
+        self.vida -= 1
+        self.cor = self.interpolar(self.cores, self.vida/self.vida_maxima)
+    
+    @staticmethod
+    def interpolar(cor1, cor2, t):
+        return tuple(int(a + (b - a) * t) for a, b in zip(cor1, cor2))
 
-def draw(win,platform,ball): #colorir
+def draw(win,platform,ball,tijolos): #colorir
     win.fill('white')
     platform.draw(win)
     ball.draw(win)
+
+    for tijolo in tijolos:
+        tijolo.draw(win)
+
     pygame.display.update()
 
 def ball_collision(ball): # colisoes com paredes
@@ -104,12 +116,13 @@ def platform_ball_collision(ball, platform): # colisao entre bola e plataforma
 def gerar_tijolos(linhas, colunas):
     tijolos = []
 
-    altura_tijolo = 30
-    largura_tijolo = WIDTH // colunas - 2
+    altura_tijolo = 20
+    largura_tijolo = (WIDTH // colunas) - 2
 
     for linha in range(linhas):
         for coluna in range(colunas):
-            tijolos.append(Tijolos(largura_tijolo * coluna + 2, altura_tijolo * linha + 2, altura_tijolo))
+            tijolo = Tijolos(largura_tijolo * coluna + 2 * coluna, altura_tijolo * linha + 2 * linha, largura_tijolo, altura_tijolo, 5, [(0, 255, 0), (255, 0, 0)])
+            tijolos.append(tijolo)
     
     return tijolos
 
@@ -121,6 +134,7 @@ def main():
     platform = Platform(platform_x, platform_y,platform_width ,platform_height, 'black')
 
     ball = Ball(WIDTH/2, platform_y - ball_radius, ball_radius,'black')
+    tijolos = gerar_tijolos(3, 10)
 
     run = True
     while run:
@@ -141,7 +155,14 @@ def main():
         ball.movement()
         ball_collision(ball)
         platform_ball_collision(ball,platform)
-        draw(win, platform, ball)
+
+
+        for tijolo in tijolos[:]:
+            tijolo.colisao(ball)
+            if tijolo.vida <= 0:
+                tijolos.remove(tijolo)
+
+        draw(win, platform, ball, tijolos)
             
         
 
