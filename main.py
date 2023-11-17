@@ -142,6 +142,18 @@ def main():
     ball = Ball(WIDTH/2, platform_y - ball_radius, ball_radius,'black')
     tijolos = gerar_tijolos(3, 10)
 
+    def reiniciar():
+        platform.x = platform_x
+        platform.y = platform_y
+        ball.x = WIDTH/2
+        ball.y = platform_y - ball_radius
+        
+    def mostrar_texto(texto):
+        renderizar_texto = FONTE_VIDAS.render(texto, 1, 'red')
+        win.blit(renderizar_texto, (WIDTH/2 - renderizar_texto.get_width()/2, HEIGHT/2 - renderizar_texto.get_height()/2))
+        pygame.display.update()
+        pygame.time.delay(3000)
+
     run = True
     while run:
         clock.tick(FPS)
@@ -176,16 +188,17 @@ def main():
             ball.set_velocity(0, ball.VEL *- 1)
 
         if vidas <= 0:
-            platform = Platform(platform_x, platform_y, platform_width, platform_height, 'black')
-            ball = Ball(WIDTH/2, platform_y - ball_radius, ball_radius, 'black')
             tijolos = gerar_tijolos(3,10)
             vidas = 3
+            reiniciar()
+            mostrar_texto('Você perdeu!')
+        
+        if len(tijolos) == 0:
+            tijolos = gerar_tijolos(3,10)
+            vidas = 3
+            reiniciar()
+            mostrar_texto('Você ganhou!')
 
-            texto_derrota = FONTE_VIDAS.render('Você perdeu!', 1, 'red')
-            win.blit(texto_derrota, (WIDTH/2 - texto_derrota.get_width()/2, HEIGHT/2 - texto_derrota.get_height()/2))
-            pygame.display.update()
-            pygame.time.delay(5000)
-            
         draw(win, platform, ball, tijolos, vidas)
             
         
