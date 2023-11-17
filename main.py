@@ -11,6 +11,8 @@ platform_width = 100
 platform_height = 15
 ball_radius = 10
 FONTE_VIDAS = pygame.font.SysFont("arial", 25)
+humberto_img = pygame.image.load('assets/img/1berto.png').convert_alpha()
+humberto_img_small = pygame.transform.scale(humberto_img, (80, 55))
 
 class Platform: #plataforma
     VEL = 5
@@ -36,6 +38,7 @@ class Ball: #bola
         self.y = y
         self.radius = radius
         self.color = color
+        self.alpha = 0
         self.x_vel = 2
         self.y_vel = -self.VEL
 
@@ -50,6 +53,7 @@ class Ball: #bola
 
     def draw(self,win): #desenha a bolinha
         pygame.draw.circle(win,self.color,(self.x,self.y),self.radius)
+
 
 class Tijolos():
     def __init__(self, x, y, largura, altura, vida, cores):
@@ -82,18 +86,15 @@ class Tijolos():
     def interpolar(cor1, cor2, t):
         return tuple(int(a + (b - a) * t) for a, b in zip(cor1, cor2))
 
-def draw(win,platform,ball,tijolos,vidas): #colorir
+def draw(win,platform,tijolos,vidas): #colorir
 
     platform.draw(win)
-    ball.draw(win)
-
     for tijolo in tijolos:
         tijolo.draw(win)
 
     vidas_texto = FONTE_VIDAS.render(f"Vidas restantes: {vidas}", 1, "black")
     win.blit(vidas_texto, (10, HEIGHT - vidas_texto.get_height() - 10))
 
-    pygame.display.update()
 
 def ball_collision(ball): # colisoes com paredes
     if ball.x -ball_radius <= 0 or ball.x + ball_radius>= WIDTH:
@@ -156,7 +157,6 @@ def main():
     def mostrar_texto(texto):
         renderizar_texto = FONTE_VIDAS.render(texto, 1, 'red')
         win.blit(renderizar_texto, (WIDTH/2 - renderizar_texto.get_width()/2, HEIGHT/2 - renderizar_texto.get_height()/2))
-        pygame.display.update()
         pygame.time.delay(3000)
 
     run = True
@@ -204,16 +204,10 @@ def main():
             reiniciar()
             mostrar_texto('Você ganhou!')
 
-
-
-
-
-
-
-
-
         win.blit(imagem_bg, (0, 0))
-        draw(win, platform, ball, tijolos, vidas)
+        win.blit(humberto_img_small, (ball.x-40, ball.y-35))
+        draw(win, platform, tijolos, vidas)
+        
         pygame.display.flip()
 
         
