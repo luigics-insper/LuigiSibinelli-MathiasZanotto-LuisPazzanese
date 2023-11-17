@@ -9,7 +9,7 @@ FPS = 60
 platform_width = 100
 platform_height = 15
 ball_radius = 10
-FONTE_VIDAS = pygame.font.SysFont("comicsans", 40)
+FONTE_VIDAS = pygame.font.SysFont("arial", 25)
 class Platform: #plataforma
     VEL = 5
 
