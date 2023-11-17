@@ -55,7 +55,7 @@ class Tijolos():
         self.y = y
         self.largura = largura
         self.altura = altura
-        self.vida = vida
+        self.vida = 2
         self.vida_maxima = vida
         self.cores = cores
         self.cor = cores[0]
