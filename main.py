@@ -1,18 +1,21 @@
 import pygame
 from background import Background
 import math
+
 pygame.init()
+pygame.mixer.init()
+
 WIDTH , HEIGHT = 800 , 600
 win = pygame.display.set_mode((WIDTH,HEIGHT)) #window
 pygame.display.set_caption('Brick Breaker')
 
-FPS = 60
+FPS = 120
 platform_width = 100
 platform_height = 15
-ball_radius = 10
+ball_radius = 30
 FONTE_VIDAS = pygame.font.SysFont("arial", 25)
 humberto_img = pygame.image.load('assets/img/1berto.png').convert_alpha()
-humberto_img_small = pygame.transform.scale(humberto_img, (80, 55))
+humberto_img_small = pygame.transform.scale(humberto_img, (60, 60))
 
 class Platform: #plataforma
     VEL = 5
