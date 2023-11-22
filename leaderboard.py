@@ -1,4 +1,3 @@
-import pygame
 import pickle
 
 class Jogador:
@@ -6,8 +5,21 @@ class Jogador:
         self.nome = nome
         self.score = score
 
-def salvar_score(score, filename):
+def salvar_score(scores, filename):
     with open(filename, 'wb') as file:
-        pickle.dump(score, file)
+        pickle.dump(scores, file)
 
-def carregar_score()
+def carregar_score(filename):
+    with open(filename, 'wb') as file:
+        pickle.dump(scores, file)
+
+def carregar_score(filename):
+    try:
+        with open(filename, 'rb') as file:
+            pickle.dump(scores, file)   
+        return scores
+    except FileNotFoundError:
+        return []
+    
+def mostrar_leaderboard(tela, scores):
+    pass

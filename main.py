@@ -1,5 +1,6 @@
 import pygame
 from background import Background
+from leaderboard import Jogador, salvar_score, carregar_score, mostrar_leaderboard 
 import math
 import time
 
@@ -145,6 +146,9 @@ def main():
     background = Background()
     imagem_bg = background.criar_bg()
 
+    leaderboard_filename = 'leaderboard.pkl'
+    leaderboard_scores = carregar_score(leaderboard_filename)
+
     platform_x = WIDTH/2 - platform_width / 2
     platform_y = HEIGHT - platform_height - 5
     platform = Platform(platform_x, platform_y,platform_width ,platform_height, 'black')
@@ -175,6 +179,9 @@ def main():
                 break
             
             keys = pygame.key.get_pressed()
+
+        mostrar_leaderboard(win, leaderboard_scores)
+        pygame.display.flip()
 
             
         if keys[pygame.K_LEFT] and platform.x - platform.VEL >= 0:
@@ -228,6 +235,8 @@ def main():
         pygame.display.flip()
 
         
+    salvar_score(leaderboard_scores, leaderboard_filename)
+
     pygame.quit()
     quit()
 
