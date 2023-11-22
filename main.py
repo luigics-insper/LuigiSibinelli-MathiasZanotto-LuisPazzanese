@@ -21,7 +21,9 @@ humberto_img_small = pygame.transform.scale(humberto_img, (60, 60))
 pygame.mixer.music.load('músicas\ComingHome_8bit.mp3')
 pygame.mixer.music.set_volume(0.4)
 som_acerto_tijolo = pygame.mixer.Sound('')
+som_acerto_tijolo.set_volume(0.5)
 som_acerto_plataforma = pygame.mixer.Sound('')
+som_acerto_plataforma.set_volume(0.5)
 
 class Platform: #plataforma
     VEL = 5
