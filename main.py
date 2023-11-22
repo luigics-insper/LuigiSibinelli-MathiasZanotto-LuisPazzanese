@@ -16,6 +16,8 @@ ball_radius = 30
 FONTE_VIDAS = pygame.font.SysFont("arial", 25)
 humberto_img = pygame.image.load('assets/img/1berto.png').convert_alpha()
 humberto_img_small = pygame.transform.scale(humberto_img, (60, 60))
+pygame.mixer.music.load('músicas\ComingHome_8bit.mp3')
+pygame.mixer.music.set_volume(0.4)
 
 class Platform: #plataforma
     VEL = 5
@@ -163,6 +165,7 @@ def main():
         pygame.time.delay(3000)
 
     run = True
+    pygame.mixer.music.play(loops=-1)
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
