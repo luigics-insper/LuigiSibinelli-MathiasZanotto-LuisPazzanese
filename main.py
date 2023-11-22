@@ -1,6 +1,7 @@
 import pygame
 from background import Background
 import math
+import time
 
 pygame.init()
 pygame.mixer.init()
@@ -198,11 +199,16 @@ def main():
             ball.y = platform_y - ball_radius
             ball.set_velocity(0, ball.VEL *- 1)
 
+        win.blit(imagem_bg, (0, 0))
         if vidas <= 0:
-            tijolos = gerar_tijolos(3,10)
-            vidas = 3
-            reiniciar()
-            mostrar_texto('Você perdeu!')
+            mostrar_texto('Você perdeu! Aperte ESC para sair ou ESPAÇO para jogar novamente')
+            reiniciar() # plataforma vai para o centro
+            time.sleep(3.5)
+            tijolos = gerar_tijolos(3,10)            
+            if keys[pygame.K_SPACE]:
+                vidas = 3
+            elif keys[pygame.K_ESCAPE]:
+                break
         
         if len(tijolos) == 0:
             tijolos = gerar_tijolos(3,10)
@@ -210,7 +216,6 @@ def main():
             reiniciar()
             mostrar_texto('Você ganhou!')
 
-        win.blit(imagem_bg, (0, 0))
         win.blit(humberto_img_small, (ball.x-40, ball.y-35))
         draw(win, platform, tijolos, vidas)
         
