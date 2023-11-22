@@ -93,7 +93,7 @@ class Tijolos():
     def interpolar(cor1, cor2, t):
         return tuple(int(a + (b - a) * t) for a, b in zip(cor1, cor2))
 
-def draw(win,platform,tijolos,vidas): #colorir
+def draw(win,platform,tijolos,vidas,score): #colorir
 
     platform.draw(win)
     for tijolo in tijolos:
@@ -101,6 +101,9 @@ def draw(win,platform,tijolos,vidas): #colorir
 
     vidas_texto = FONTE_VIDAS.render(f"Vidas restantes: {vidas}", 1, "red")
     win.blit(vidas_texto, (10, HEIGHT - vidas_texto.get_height() - 10))
+
+    score_text = FONTE_VIDAS.render(f'Pontos: {score}', 1, 'white')
+    win.blit(score_text, (WIDTH - score_text.get_width() - 10, HEIGHT - score_text.get_height() - 10))
 
 
 def ball_collision(ball): # colisoes com paredes
@@ -146,6 +149,8 @@ def main():
     background = Background()
     imagem_bg = background.criar_bg()
 
+    score = 0
+
     leaderboard_filename = 'leaderboard.pkl'
     leaderboard_scores = carregar_score(leaderboard_filename)
 
@@ -182,6 +187,7 @@ def main():
 
         mostrar_leaderboard(win, leaderboard_scores)
         pygame.display.flip()
+        draw(win, platform, tijolos, vidas, score)
 
             
         if keys[pygame.K_LEFT] and platform.x - platform.VEL >= 0:
@@ -197,6 +203,7 @@ def main():
         for tijolo in tijolos[:]:
             tijolo.colisao(ball)
             if tijolo.vida <= 0:
+                score += 100
                 tijolos.remove(tijolo)
 
         #PERDER VIDAS
@@ -230,7 +237,7 @@ def main():
 
 
         win.blit(humberto_img_small, (ball.x-40, ball.y-35))
-        draw(win, platform, tijolos, vidas)
+        draw(win, platform, tijolos, vidas, score)
         
         pygame.display.flip()
 

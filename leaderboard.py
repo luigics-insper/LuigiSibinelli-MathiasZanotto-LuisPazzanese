@@ -10,13 +10,9 @@ def salvar_score(scores, filename):
         pickle.dump(scores, file)
 
 def carregar_score(filename):
-    with open(filename, 'wb') as file:
-        pickle.dump(scores, file)
-
-def carregar_score(filename):
     try:
         with open(filename, 'rb') as file:
-            pickle.dump(scores, file)   
+            scores = pickle.load(file)
         return scores
     except FileNotFoundError:
         return []
