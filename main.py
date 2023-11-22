@@ -20,6 +20,8 @@ humberto_img = pygame.image.load('assets/img/1berto.png').convert_alpha()
 humberto_img_small = pygame.transform.scale(humberto_img, (60, 60))
 pygame.mixer.music.load('músicas\ComingHome_8bit.mp3')
 pygame.mixer.music.set_volume(0.4)
+som_acerto_tijolo = pygame.mixer.Sound('')
+som_acerto_plataforma = pygame.mixer.Sound('')
 
 class Platform: #plataforma
     VEL = 5
@@ -88,6 +90,7 @@ class Tijolos():
     def acerto(self):
         self.vida -= 1
         self.cor = self.interpolar(*self.cores, self.vida/self.vida_maxima)
+        som_acerto_tijolo.play()
     
     @staticmethod
     def interpolar(cor1, cor2, t):
@@ -129,6 +132,7 @@ def platform_ball_collision(ball, platform): # colisao entre bola e plataforma
     y_vel = math.cos(ang_rad) * ball.VEL * -1
 
     ball.set_velocity(x_vel, y_vel)
+    som_acerto_plataforma.play()
 
 def gerar_tijolos(linhas, colunas):
     tijolos = []
