@@ -203,7 +203,7 @@ def main():
         if vidas <= 0:
             mostrar_texto('Você perdeu! Aperte ESC para sair ou ESPAÇO para jogar novamente')
             reiniciar() # plataforma vai para o centro
-            time.sleep(3.5)
+            time.sleep(1.5)
             tijolos = gerar_tijolos(3,10)            
             if keys[pygame.K_SPACE]:
                 vidas = 3
@@ -211,10 +211,16 @@ def main():
                 break
         
         if len(tijolos) == 0:
-            tijolos = gerar_tijolos(3,10)
-            vidas = 3
+            mostrar_texto('Você ganhou! Aperte ESC para sair ou ESPAÇO para jogar novamente')
             reiniciar()
-            mostrar_texto('Você ganhou!')
+            time.sleep(1.5)
+            if keys[pygame.K_SPACE]:
+                vidas = 3
+                tijolos = gerar_tijolos(3,10)
+            elif keys[pygame.K_ESCAPE]:
+                break
+
+
 
         win.blit(humberto_img_small, (ball.x-40, ball.y-35))
         draw(win, platform, tijolos, vidas)
