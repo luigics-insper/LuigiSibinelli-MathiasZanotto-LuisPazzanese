@@ -8,10 +8,10 @@ pygame.init()
 pygame.mixer.init()
 
 WIDTH , HEIGHT = 800 , 600
-win = pygame.display.set_mode((WIDTH,HEIGHT)) #window
+win = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Brick Breaker')
 
-FPS = 90
+FPS = 120
 platform_width = 100
 platform_height = 15
 ball_radius = 30
@@ -178,11 +178,21 @@ def main():
         platform.y = platform_y
         ball.x = WIDTH/2
         ball.y = platform_y - ball_radius
-        
+    
     def mostrar_texto(texto):
         renderizar_texto = FONTE_VIDAS.render(texto, 1, 'red')
         win.blit(renderizar_texto, (WIDTH/2 - renderizar_texto.get_width()/2, HEIGHT/2 - renderizar_texto.get_height()/2))
-        pygame.time.delay(3000)
+        pygame.display.flip()
+        run = True
+        while run:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        return True
+                    elif event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        quit()
+            pygame.display.flip()
 
     run = True
     pygame.mixer.music.play(loops=-1)
@@ -225,21 +235,27 @@ def main():
 
         win.blit(imagem_bg, (0, 0))
         if vidas <= 0:
+            score = 0
             mostrar_texto('Você perdeu! Aperte ESC para sair ou ESPAÇO para jogar novamente')
+            mostrar_leaderboard(win, leaderboard_scores)
+            pygame.display.flip()
+            reiniciar()
+            vidas = 3
+            tijolos = gerar_tijolos(3, 10)
             reiniciar() # plataforma vai para o centro
-            time.sleep(1.5)
             tijolos = gerar_tijolos(3,10)            
             if keys[pygame.K_SPACE]:
                 vidas = 3
+                score = 0
             elif keys[pygame.K_ESCAPE]:
                 break
         
         if len(tijolos) == 0:
             mostrar_texto('Você ganhou! Aperte ESC para sair ou ESPAÇO para jogar novamente')
             reiniciar()
-            time.sleep(1.5)
             if keys[pygame.K_SPACE]:
                 vidas = 3
+                score = 0
                 tijolos = gerar_tijolos(3,10)
             elif keys[pygame.K_ESCAPE]:
                 break
@@ -251,7 +267,6 @@ def main():
         
         pygame.display.flip()
 
-        
     salvar_score(leaderboard_scores, leaderboard_filename)
 
     pygame.quit()
