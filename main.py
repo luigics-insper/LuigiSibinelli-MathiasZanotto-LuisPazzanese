@@ -11,18 +11,20 @@ WIDTH , HEIGHT = 800 , 600
 win = pygame.display.set_mode((WIDTH,HEIGHT)) #window
 pygame.display.set_caption('Brick Breaker')
 
-FPS = 120
+FPS = 90
 platform_width = 100
 platform_height = 15
 ball_radius = 30
 FONTE_VIDAS = pygame.font.SysFont("arial", 25)
 humberto_img = pygame.image.load('assets/img/1berto.png').convert_alpha()
 humberto_img_small = pygame.transform.scale(humberto_img, (60, 60))
-pygame.mixer.music.load('músicas\ComingHome_8bit.mp3')
+pygame.mixer.music.load('músicas\AceOfSpades_8bit.mp3')
+#pygame.mixer.music.load('músicas\ComingHome_8bit.mp3')
+#pygame.mixer.music.load('músicas\Doom_8bit.mp3')
 pygame.mixer.music.set_volume(0.4)
-som_acerto_tijolo = pygame.mixer.Sound('')
+som_acerto_tijolo = pygame.mixer.Sound('efeitos sonoros\metal pipe.mp3')
 som_acerto_tijolo.set_volume(0.5)
-som_acerto_plataforma = pygame.mixer.Sound('')
+som_acerto_plataforma = pygame.mixer.Sound('efeitos sonoros\metal pipe.mp3')
 som_acerto_plataforma.set_volume(0.5)
 
 class Platform: #plataforma
