@@ -37,6 +37,8 @@ class Platform: #plataforma
 
     def draw(self,win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(win, (255, 255, 255), (self.x - 2, self.y - 2, self.width + 4, self.height + 4))
+        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height))
 
     def movement(self, direction=1):
         self.x = self.x + self.VEL * direction
