@@ -11,6 +11,9 @@ WIDTH , HEIGHT = 800 , 600
 win = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Brick Breaker')
 
+
+fonte_8bit = pygame.font.Font('fonte\8-BIT WONDER.TTF', 27) #fonte 8-bit
+
 FPS = 120
 platform_width = 100
 platform_height = 15
@@ -153,6 +156,39 @@ def gerar_tijolos(linhas, colunas):
     
     return tijolos
 
+def tela_inicial():
+    pygame.mixer.init()
+
+    pygame.mixer.music.load(r'efeitos sonoros\475943_Skyrim-8-Bit-Theme.mp3')
+    pygame.mixer.music.set_volume(0.2) 
+    pygame.mixer.music.play(-1) 
+
+    imagem_fundo = pygame.image.load('backgrounds\initscreen.jpg').convert()
+    imagem_fundo = pygame.transform.scale(imagem_fundo, (WIDTH, HEIGHT))
+
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    intro = False
+
+
+        win.blit(imagem_fundo, (0, 0))
+        texto_linha1 = fonte_8bit.render("   Bem vindo ao BertoBreaker", True, (255, 255, 255))
+        texto_linha2 = fonte_8bit.render("Para jogar utilize as arrow keys", True, (255, 255, 255))
+        win.blit(texto_linha1, (WIDTH/2 - texto_linha1.get_width()/2, HEIGHT/2 - texto_linha1.get_height()))
+        posicao_linha2 = (WIDTH/2 - texto_linha2.get_width()/2, HEIGHT/2)
+        win.blit(texto_linha2, posicao_linha2)
+
+        pygame.display.update()
+
+
+
 def main():
     clock = pygame.time.Clock()
 
@@ -203,7 +239,7 @@ def main():
                 run = False
                 break
             
-            keys = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()
 
         mostrar_leaderboard(win, leaderboard_scores)
         pygame.display.flip()
@@ -273,5 +309,7 @@ def main():
     quit()
 
 if __name__ == '__main__':
+    pygame.init()
+    tela_inicial()
     main()
 
