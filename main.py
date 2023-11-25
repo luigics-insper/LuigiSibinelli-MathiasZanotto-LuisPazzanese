@@ -179,13 +179,17 @@ def tela_inicial():
 
 
         win.blit(imagem_fundo, (0, 0))
-        texto_linha1 = fonte_8bit.render("   Bem vindo ao BertoBreaker", True, (255, 255, 255))
-        texto_linha2 = fonte_8bit.render("Para jogar utilize as arrow keys", True, (255, 255, 255))
-        win.blit(texto_linha1, (WIDTH/2 - texto_linha1.get_width()/2, HEIGHT/2 - texto_linha1.get_height()))
-        posicao_linha2 = (WIDTH/2 - texto_linha2.get_width()/2, HEIGHT/2)
-        win.blit(texto_linha2, posicao_linha2)
+        texto_linha1 = fonte_8bit.render("   BertoBreaker", True, (255, 255, 100))
+        texto_linha2 = fonte_8bit.render("Para jogar utilize as arrow keys", True, (255, 100, 255))
+        texto_linha3 = fonte_8bit.render("Pressione espaco para iniciar", True, (200, 100, 255))
 
+        win.blit(texto_linha1, (WIDTH/2 - texto_linha1.get_width()/2, HEIGHT/3 - texto_linha1.get_height()))
+        posicao_linha2 = (WIDTH/2 - texto_linha2.get_width()/2, HEIGHT/2)
+        posicao_linha3 = (WIDTH/2 - texto_linha3.get_width()/2, HEIGHT/2 + texto_linha2.get_height() + 40)  # Posição ajustada verticalmente
+        win.blit(texto_linha2, posicao_linha2)
+        win.blit(texto_linha3, posicao_linha3)
         pygame.display.update()
+
 
 
 
