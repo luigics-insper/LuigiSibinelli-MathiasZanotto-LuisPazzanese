@@ -24,11 +24,10 @@ humberto_img_small = pygame.transform.scale(humberto_img, (60, 60))
 pygame.mixer.music.load('músicas\AceOfSpades_8bit.mp3')
 #pygame.mixer.music.load('músicas\ComingHome_8bit.mp3')
 #pygame.mixer.music.load('músicas\Doom_8bit.mp3')
-pygame.mixer.music.set_volume(0.4)
-som_acerto_tijolo = pygame.mixer.Sound('efeitos sonoros\metal pipe.mp3')
-som_acerto_tijolo.set_volume(0.5)
-som_acerto_plataforma = pygame.mixer.Sound('efeitos sonoros\metal pipe.mp3')
-som_acerto_plataforma.set_volume(0.5)
+pygame.mixer.music.set_volume(0.2)
+som_acerto_tijolo = pygame.mixer.Sound('efeitos sonoros\hit_sound.wav')
+som_acerto_tijolo.set_volume(0.2)
+
 
 class Platform: #plataforma
     VEL = 5
@@ -106,16 +105,16 @@ class Tijolos():
         return tuple(int(a + (b - a) * t) for a, b in zip(cor1, cor2))
 
 def draw(win,platform,tijolos,vidas,score): #colorir
-
+    fonte_8bit = pygame.font.Font('fonte\8-BIT WONDER.TTF', 18) #fonte 8-bit
     platform.draw(win)
     for tijolo in tijolos:
         tijolo.draw(win)
 
-    vidas_texto = FONTE_VIDAS.render(f"Vidas restantes: {vidas}", 1, "red")
-    win.blit(vidas_texto, (10, HEIGHT - vidas_texto.get_height() - 10))
+    vidas_texto = fonte_8bit.render(f"{vidas} vidas", 1, "red")
+    win.blit(vidas_texto, (10, HEIGHT - vidas_texto.get_height() - 30))
 
-    score_text = FONTE_VIDAS.render(f'Pontos: {score}', 1, 'white')
-    win.blit(score_text, (WIDTH - score_text.get_width() - 10, HEIGHT - score_text.get_height() - 10))
+    score_text = fonte_8bit.render(f'{score} pontos', 1, 'white')
+    win.blit(score_text, (WIDTH - score_text.get_width() - 10, HEIGHT - score_text.get_height() - 30))
 
 
 def ball_collision(ball): # colisoes com paredes
@@ -141,7 +140,6 @@ def platform_ball_collision(ball, platform): # colisao entre bola e plataforma
     y_vel = math.cos(ang_rad) * ball.VEL * -1
 
     ball.set_velocity(x_vel, y_vel)
-    som_acerto_plataforma.play()
 
 def gerar_tijolos(linhas, colunas):
     tijolos = []
@@ -219,9 +217,22 @@ def main():
         ball.x = WIDTH/2
         ball.y = platform_y - ball_radius
     
-    def mostrar_texto(texto):
-        renderizar_texto = FONTE_VIDAS.render(texto, 1, 'red')
-        win.blit(renderizar_texto, (WIDTH/2 - renderizar_texto.get_width()/2, HEIGHT/2 - renderizar_texto.get_height()/2))
+    def mostrar_texto():
+
+        fonte_8bit = pygame.font.Font('fonte/8-BIT WONDER.TTF', 14)  # Carregar a fonte 8-bit com tamanho 14
+
+        texto1 = "VOCE PERDEU"
+        texto2 = "Pressione ESC para sair"
+        texto3 = "Pressione ESPACO para jogar novamente"
+
+        renderizar_texto1 = fonte_8bit.render(texto1, True, (255, 0, 0))  # Texto vermelho
+        renderizar_texto2 = fonte_8bit.render(texto2, True, (255, 0, 0))  # Texto vermelho
+        renderizar_texto3 = fonte_8bit.render(texto3, True, (255, 0, 0))  # Texto vermelho
+
+        win.blit(renderizar_texto1, (WIDTH/2 - renderizar_texto1.get_width()/2, HEIGHT/2 - renderizar_texto1.get_height()/2 - 80))
+        win.blit(renderizar_texto2, (WIDTH/2 - renderizar_texto2.get_width()/2, HEIGHT/2))
+        win.blit(renderizar_texto3, (WIDTH/2 - renderizar_texto3.get_width()/2, HEIGHT/2 + renderizar_texto2.get_height() + 20)) # Posição ajustada para ficar abaixo do texto2
+
         pygame.display.flip()
         run = True
         while run:
@@ -276,7 +287,7 @@ def main():
         win.blit(imagem_bg, (0, 0))
         if vidas <= 0:
             score = 0
-            mostrar_texto('Você perdeu! Aperte ESC para sair ou ESPAÇO para jogar novamente')
+            mostrar_texto()
             mostrar_leaderboard(win, leaderboard_scores)
             pygame.display.flip()
             reiniciar()
