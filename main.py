@@ -21,10 +21,6 @@ ball_radius = 30
 FONTE_VIDAS = pygame.font.SysFont("arial", 25)
 humberto_img = pygame.image.load('assets/img/1berto.png').convert_alpha()
 humberto_img_small = pygame.transform.scale(humberto_img, (60, 60))
-pygame.mixer.music.load('músicas\AceOfSpades_8bit.mp3')
-#pygame.mixer.music.load('músicas\ComingHome_8bit.mp3')
-#pygame.mixer.music.load('músicas\Doom_8bit.mp3')
-pygame.mixer.music.set_volume(0.2)
 som_acerto_tijolo = pygame.mixer.Sound('efeitos sonoros\hit_sound.wav')
 som_acerto_tijolo.set_volume(0.2)
 
@@ -197,6 +193,9 @@ def main():
     background = Background()
     imagem_bg = background.criar_bg()
 
+    pygame.mixer.music.load('músicas\AceOfSpades_8bit.mp3')
+    pygame.mixer.music.set_volume(0.2) 
+
     score = 0
 
     leaderboard_filename = 'leaderboard.pkl'
@@ -302,7 +301,7 @@ def main():
                 break
         
         if len(tijolos) == 0:
-            mostrar_texto('Você ganhou! Aperte ESC para sair ou ESPAÇO para jogar novamente')
+            mostrar_texto('Voce ganhou! Aperte ESC para sair ou ESPAÇO para jogar novamente')
             reiniciar()
             if keys[pygame.K_SPACE]:
                 vidas = 3
