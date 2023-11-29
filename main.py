@@ -1,6 +1,5 @@
 import pygame
 from background import Background
-from leaderboard import Jogador, salvar_score, carregar_score, mostrar_leaderboard 
 import math
 import time
 
@@ -23,7 +22,6 @@ humberto_img = pygame.image.load('assets/img/1berto.png').convert_alpha()
 humberto_img_small = pygame.transform.scale(humberto_img, (60, 60))
 som_acerto_tijolo = pygame.mixer.Sound('efeitos sonoros\hit_sound.wav')
 som_acerto_tijolo.set_volume(0.2)
-
 
 class Platform: #plataforma
     VEL = 5
@@ -154,7 +152,7 @@ def tela_inicial():
     pygame.mixer.init()
 
     pygame.mixer.music.load(r'efeitos sonoros\475943_Skyrim-8-Bit-Theme.mp3')
-    pygame.mixer.music.set_volume(0.2) 
+    pygame.mixer.music.set_volume(0.4) 
     pygame.mixer.music.play(-1) 
 
     imagem_fundo = pygame.image.load('backgrounds\initscreen.jpg').convert()
@@ -190,16 +188,10 @@ def tela_inicial():
 def main():
     clock = pygame.time.Clock()
 
-    background = Background()
-    imagem_bg = background.criar_bg()
-
     pygame.mixer.music.load('músicas\AceOfSpades_8bit.mp3')
     pygame.mixer.music.set_volume(0.2) 
 
     score = 0
-
-    leaderboard_filename = 'leaderboard.pkl'
-    leaderboard_scores = carregar_score(leaderboard_filename)
 
     platform_x = WIDTH/2 - platform_width / 2
     platform_y = HEIGHT - platform_height - 5
@@ -243,7 +235,8 @@ def main():
                         pygame.quit()
                         quit()
             pygame.display.flip()
-
+    imagem_fundo = pygame.image.load('backgrounds\Foto-1.jpg').convert()
+    imagem_fundo = pygame.transform.scale(imagem_fundo, (WIDTH, HEIGHT))
     run = True
     pygame.mixer.music.play(loops=-1)
     while run:
@@ -254,17 +247,16 @@ def main():
                 break
             
         keys = pygame.key.get_pressed()
-
-        mostrar_leaderboard(win, leaderboard_scores)
         pygame.display.flip()
-        draw(win, platform, tijolos, vidas, score)
+        win.blit(imagem_fundo, (0, 0))
 
+        draw(win, platform, tijolos, vidas, score)
             
         if keys[pygame.K_LEFT] and platform.x - platform.VEL >= 0:
                     platform.movement(-1)
         if keys[pygame.K_RIGHT] and platform.x + platform.width + platform.VEL <= WIDTH:
                     platform.movement(1)
-            
+
         ball.movement()
         ball_collision(ball)
         platform_ball_collision(ball,platform)
@@ -283,11 +275,9 @@ def main():
             ball.y = platform_y - ball_radius
             ball.set_velocity(0, ball.VEL *- 1)
 
-        win.blit(imagem_bg, (0, 0))
         if vidas <= 0:
             score = 0
             mostrar_texto()
-            mostrar_leaderboard(win, leaderboard_scores)
             pygame.display.flip()
             reiniciar()
             vidas = 3
@@ -316,8 +306,6 @@ def main():
         draw(win, platform, tijolos, vidas, score)
         
         pygame.display.flip()
-
-    salvar_score(leaderboard_scores, leaderboard_filename)
 
     pygame.quit()
     quit()
