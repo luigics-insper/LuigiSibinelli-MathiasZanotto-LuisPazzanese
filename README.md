@@ -32,6 +32,7 @@ Caso o Pygame não esteja instalado, inclua os comandos necessários para instal
 -python main.py
 ---------------------------------**Como Jogar**---------------------------------
 O objetivo e quebrar todos tijolos, para isso voce controla a plataforma com as arrow keys do telcado, <- ->.
+Demonstração do jogo: https://youtu.be/8HewuA_QcVo
 
 
 ---------------------------------**Contribuição**---------------------------------
